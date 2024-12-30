@@ -14,6 +14,8 @@ class BaseModel(models.Model):
 
 class Choices(BaseModel):
     choice = models.CharField(max_length=100)
+    def __str__(self):
+        return self.choice
 
 
 class Question(BaseModel):
@@ -21,6 +23,8 @@ class Question(BaseModel):
     question_type = models.CharField(max_length=100, choices=QUESTION_CHOICES)
     required = models.BooleanField(default=True)
     choices = models.ManyToManyField(Choices, related_name="question_choice", blank=True)
+    def __str__(self):
+        return self.question
 
 
 class Form(BaseModel):
@@ -29,5 +33,7 @@ class Form(BaseModel):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     background_color = models.CharField(max_length=100, default="#8c8c8c")
     questions = models.ManyToManyField(Question, related_name="questions")
+    def __str__(self):
+        return self.title
 
 
