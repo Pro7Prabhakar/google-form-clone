@@ -1,6 +1,7 @@
 from django.db import models
 from .choices import QUESTION_CHOICES
 from django.contrib.auth.models import User
+from .utils import generateRandomCode
 # Create your models here.
 
 
@@ -28,12 +29,20 @@ class Question(BaseModel):
 
 
 class Form(BaseModel):
-    code = models.CharField(max_length=100, unique=True)
+    code = models.CharField(max_length=100, unique=True, blank=True)
     title = models.CharField(max_length=100)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     background_color = models.CharField(max_length=100, default="#8c8c8c")
     questions = models.ManyToManyField(Question, related_name="questions")
+    
     def __str__(self):
         return self.title
 
 
+
+
+    def save(self, *args,**kwargs):
+        if not self.pk:
+            self.code = generateRandomCode(20)
+
+        super(Form,self).save(*args,**kwargs)
