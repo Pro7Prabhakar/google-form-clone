@@ -43,6 +43,6 @@ class Form(BaseModel):
 
     def save(self, *args,**kwargs):
         if not self.pk:
-            self.code = generateRandomCode(20)
+            self.code = generateRandomCode(20).lower()
 
         super(Form,self).save(*args,**kwargs)
