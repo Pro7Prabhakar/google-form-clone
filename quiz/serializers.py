@@ -21,14 +21,23 @@ class FormSerializer(serializers.ModelSerializer):
             choices = None
             if question.question_type in ["multiple choices","checkbox"]:
                 choices = []
-                for choice in question.question_choice.all():
-                    choices.append(choice.choice)
+                for choice in question.choices.all():
+                    choices.append({"id": choice.id ,"choices": choice.choice})
 
             questions.append({
-                "question": instance.question,
-                "question_type": instance.question_type,
-                "required": instance.required,
+                "id": question.id,
+                "question": question.question,
+                "question_type": question.question_type,
+                "required": question.required,
+                "choices": choices,
             })
+        
+        data = {
+            "code" : instance.code,
+            "title" : instance.title,
+            "background_color" : instance.background_color,
+            "questions" : questions,
+        }
 
 
-        return super().to_representation(instance)
+        return data

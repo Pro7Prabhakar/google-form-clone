@@ -23,7 +23,7 @@ class Question(BaseModel):
     question = models.CharField(max_length=100)
     question_type = models.CharField(max_length=100, choices=QUESTION_CHOICES)
     required = models.BooleanField(default=True)
-    choices = models.ManyToManyField(Choices, related_name="question_choice", blank=True)
+    choices = models.ManyToManyField(Choices, related_name="question_choices", blank=True)
     def __str__(self):
         return self.question
 
